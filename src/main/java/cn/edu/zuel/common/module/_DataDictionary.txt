@@ -1,0 +1,411 @@
+Table: admin
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ name         | VARCHAR(32)         | NO   |     |                   | 姓名      
+ account      | VARCHAR(128)        | NO   |     |                   | 账号      
+ mobile       | VARCHAR(128)        | NO   |     |                   | 手机号     
+ salt         | VARCHAR(50)         | NO   |     |                   | 加密盐     
+ status       | VARCHAR(32)         | YES  |     | 1                 | 状态 用户状态 1-正常 2-禁用
+ password     | VARCHAR(128)        | NO   |     |                   | 密码      
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: advert
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ image        | VARCHAR(255)        | YES  |     |                   | 图片      
+ url          | VARCHAR(128)        | YES  |     |                   | 链接地址    
+ status       | TINYINT UNSIGNED(3) | YES  |     | 0                 | 状态 0-所有，1-启用，2-禁用
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+ image_id     | VARCHAR(32)         | YES  |     |                   | 图片ID    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: article
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ title        | VARCHAR(32)         | YES  |     |                   | 标题      
+ content      | VARCHAR(32)         | YES  |     |                   | 简介      
+ type         | TINYINT UNSIGNED(3) | YES  |     |                   | 所属分类    
+ status       | TINYINT UNSIGNED(3) | YES  |     | 0                 | 状态 0-待发布，1-已显示，2-未显示
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: brand
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ title        | VARCHAR(128)        | YES  |     |                   | 品牌名称    
+ firm_id      | BIGINT UNSIGNED(20) | YES  |     |                   | 厂商编号    
+ category_id  | BIGINT UNSIGNED(20) | YES  |     |                   | 分类      
+ logo_id      | VARCHAR(32)         | YES  |     |                   | 品牌logoID
+ logo         | VARCHAR(255)        | YES  |     |                   | 品牌logo  
+ description  | VARCHAR(3072)       | YES  |     |                   | 品牌描述    
+ status       | TINYINT UNSIGNED(3) | YES  |     | 0                 | 状态 0-未审核，1-已审核，2-审核为通过
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: category
+----------------+---------------------+------+-----+-------------------+---------
+ Field          | Type                | Null | Key | Default           | Remarks 
+----------------+---------------------+------+-----+-------------------+---------
+ id             | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ name           | VARCHAR(32)         | YES  |     |                   | 分类名称    
+ parent_id      | BIGINT UNSIGNED(20) | YES  |     |                   | 父节点 如果存在父节点，则对应父节点id
+ parent_id_list | VARCHAR(128)        | YES  |     |                   | 父节点集合 该节点的所有父节点集合，从根节点一直到当前节点的直接父节点，父节点直接以,分隔
+ is_parent      | TINYINT UNSIGNED(3) | YES  |     | 0                 | 当前节点是否为父节点 0-否 1-是
+ level          | TINYINT UNSIGNED(3) | YES  |     |                   | 层级 根节点为第一层级
+ is_deleted     | TINYINT UNSIGNED(3) | YES  |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time   | DATETIME(26)        | YES  |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time   | DATETIME(26)        | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+ is_used        | TINYINT(3)          | YES  |     | 1                 | 0-未启用， 1-启用
+----------------+---------------------+------+-----+-------------------+---------
+
+Table: chat
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ initiator    | TINYINT UNSIGNED(3) | NO   |     |                   | 发起者 0-用户，1-厂商
+ firm_id      | BIGINT UNSIGNED(20) | NO   |     |                   | 厂商编号    
+ client_id    | BIGINT UNSIGNED(20) | NO   |     |                   | 用户编号    
+ record       | VARCHAR(1024)       | YES  |     |                   | 消息详情    
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: comment
+---------------+---------------------+------+-----+-------------------+---------
+ Field         | Type                | Null | Key | Default           | Remarks 
+---------------+---------------------+------+-----+-------------------+---------
+ id            | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ goods_id      | BIGINT UNSIGNED(20) | YES  |     |                   | 商品编号    
+ user_id       | BIGINT UNSIGNED(20) | YES  |     |                   | 用户编号    
+ goods_comment | VARCHAR(1024)       | YES  |     |                   | 商品评价    
+ mark          | TINYINT UNSIGNED(3) | YES  |     |                   | 评分 0,1,2,3,4个等级
+ is_deleted    | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time  | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time  | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+---------------+---------------------+------+-----+-------------------+---------
+
+Table: complain
+---------------+---------------------+------+-----+-------------------+---------
+ Field         | Type                | Null | Key | Default           | Remarks 
+---------------+---------------------+------+-----+-------------------+---------
+ id            | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ firm_id       | BIGINT UNSIGNED(20) | NO   |     |                   | 厂商编号    
+ user_id       | BIGINT UNSIGNED(20) | NO   |     |                   | 用户编号    
+ target        | TINYINT UNSIGNED(3) | NO   |     |                   | 投诉对象 0-对厂商,1-对平台
+ feedback_type | TINYINT UNSIGNED(3) | NO   |     |                   | 反馈类型 0-发货问题,1-承诺未履行,2-产品服务问题,3-其他；4-
+ content       | VARCHAR(3072)       | NO   |     |                   | 投诉内容    
+ picture_id    | BIGINT UNSIGNED(20) | NO   |     |                   | 投诉图片 文件路径？？
+ picture_name  | VARCHAR(255)        | YES  |     |                   | 投诉图片名   
+ status        | TINYINT UNSIGNED(3) | YES  |     | 0                 | 状态 0-未处理，1-已处理
+ is_deleted    | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time  | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time  | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+---------------+---------------------+------+-----+-------------------+---------
+
+Table: contract
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ name         | VARCHAR(32)         | NO   |     |                   | 合同名称    
+ content      | TEXT(65535)         | YES  |     |                   | 合同内容    
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: favorites
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ user_id      | BIGINT UNSIGNED(20) | YES  |     |                   | 用户编号    
+ goods_id     | BIGINT UNSIGNED(20) | YES  |     |                   | 商品编号    
+ url          | VARCHAR(128)        | YES  |     |                   | 链接      
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: file
+-------------------+---------------------+------+-----+-------------------+---------
+ Field             | Type                | Null | Key | Default           | Remarks 
+-------------------+---------------------+------+-----+-------------------+---------
+ id                | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ original_name     | VARCHAR(1024)       | YES  |     |                   | 文件名 文件上传时姓名
+ source            | TINYINT UNSIGNED(3) | YES  |     |                   | 文件来源 1-IM，2-其他
+ type              | TINYINT UNSIGNED(3) | YES  |     |                   | 文件类型 1-文本文件 2-图片文件 3-音频文件 4-视频文件 5-其他文件
+ suffix            | VARCHAR(50)         | YES  |     |                   | 文件后缀名 后缀名为jpg/png等，无.
+ saved_path        | VARCHAR(255)        | YES  |     |                   | 文件存储地址 文件在服务器上存储路径
+ url               | VARCHAR(128)        | YES  |     |                   | 文件远程存储路径 如果文件从远程获取，则存在
+ new_name          | VARCHAR(128)        | YES  |     |                   | 文件新名称 文件新名称
+ text_content_uuid | VARCHAR(32)         | YES  |     |                   | 文件内容 需要存储文件内容时，则将生成的文件存储到文本内容表中，通过uuid关联
+ download_times    | INT(10)             | YES  |     | 0                 | 文件下载次数  
+ uuid              | VARCHAR(32)         | YES  |     |                   | 文件所属对象  
+ mime_type         | VARCHAR(128)        | YES  |     |                   | 文件mimeType
+ size              | BIGINT(19)          | YES  |     | 0                 | 文件大小    
+ extra_params      | VARCHAR(255)        | YES  |     |                   | 额外参数 额外参数，如果是语音文件，则对应时长，图片文件则包括宽和高
+ user_id           | BIGINT UNSIGNED(20) | YES  |     | 0                 | 上传用户    
+ is_deleted        | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除，1-已删除
+ created_time      | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time      | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+-------------------+---------------------+------+-----+-------------------+---------
+
+Table: firm
+------------------+---------------------+------+-----+-------------------+---------
+ Field            | Type                | Null | Key | Default           | Remarks 
+------------------+---------------------+------+-----+-------------------+---------
+ id               | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ account          | VARCHAR(128)        | YES  |     |                   | 账号      
+ name             | VARCHAR(32)         | NO   |     |                   | 法人姓名    
+ bankCard         | VARCHAR(128)        | YES  |     |                   |         
+ balance          | DECIMAL(32,8)       | YES  |     | 0.00000000        |         
+ id_card          | VARCHAR(20)         | YES  |     |                   | 身份证号    
+ id_card_pic_id   | BIGINT UNSIGNED(20) | YES  |     |                   | 法人身份证复印件ID
+ id_card_pic_name | VARCHAR(255)        | YES  |     |                   | 法人身份证复印件名称
+ email            | VARCHAR(50)         | YES  |     |                   | 邮箱      
+ mobile           | VARCHAR(20)         | NO   |     |                   | 手机号     
+ firm_name        | VARCHAR(50)         | NO   |     |                   | 厂商名称    
+ industry_id      | BIGINT UNSIGNED(20) | YES  |     |                   | 所属行业    
+ info             | VARCHAR(128)        | YES  |     |                   | 厂商主营相关信息 主营业务
+ registration     | VARCHAR(32)         | YES  |     |                   | 企业注册号   
+ license_id       | BIGINT UNSIGNED(20) | YES  |     |                   | 营业执照    
+ license_name     | VARCHAR(255)        | YES  |     |                   | 营业执照名称  
+ address_id       | BIGINT UNSIGNED(20) | YES  |     |                   | 默认地址    
+ salt             | VARCHAR(50)         | NO   |     |                   | 加密盐     
+ password         | VARCHAR(128)        | NO   |     |                   | 密码      
+ status           | TINYINT UNSIGNED(3) | NO   |     | 0                 | 审核状态 0-未审核， 1-正常 2-禁用
+ credit           | TINYINT UNSIGNED(3) | YES  |     | 0                 | 信用等级    
+ credit_score     | INT(10)             | YES  |     | 0                 | 信用分 刚注册的淘宝账号信用为零。要想得到信用，可以通过购物实现
+ is_deleted       | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time     | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time     | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+------------------+---------------------+------+-----+-------------------+---------
+
+Table: goods
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ firm_id      | BIGINT UNSIGNED(20) | YES  |     |                   | 厂商编号    
+ title        | VARCHAR(128)        | YES  |     |                   | 商品名称    
+ stu_goods    | TINYINT(3)          | YES  |     | 0                 | 是否为学生租赁 0-否，1-是
+ brand_id     | BIGINT UNSIGNED(20) | YES  |     |                   | 品牌      
+ category_id  | BIGINT UNSIGNED(20) | YES  |     |                   | 商品分类    
+ description  | VARCHAR(1024)       | YES  |     |                   | 商品详细描述  
+ abstract     | VARCHAR(128)        | YES  |     |                   | 商品概要    
+ is_sale      | TINYINT UNSIGNED(3) | YES  |     | 0                 | 是否可买 0-所有，1-可买，2-不可买
+ grounding    | TINYINT UNSIGNED(3) | YES  |     | 0                 | 上下架 0-上架，1-下架
+ deposit      | DECIMAL(32,8)       | YES  |     |                   | 押金      
+ rental       | DECIMAL(32,8)       | YES  |     |                   | 租金      
+ rent_time    | INT(10)             | YES  |     |                   | 最短租赁时长  
+ price        | DECIMAL(32,10)      | YES  |     |                   | 购买价格    
+ image_id     | VARCHAR(255)        | YES  |     |                   | 图片ID    
+ image        | VARCHAR(255)        | YES  |     |                   | 图片名称    
+ stock        | INT(10)             | YES  |     |                   | 库存      
+ rental_num   | INT(10)             | YES  |     | 0                 | 已经租赁库存数 
+ sale_num     | INT(10)             | YES  |     | 0                 | 已售库存数   
+ status       | TINYINT UNSIGNED(3) | YES  |     | 0                 | 审核状态 0-未审核，1-审核通过，2-审核不通过
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: industry
+---------------+---------------------+------+-----+-------------------+---------
+ Field         | Type                | Null | Key | Default           | Remarks 
+---------------+---------------------+------+-----+-------------------+---------
+ id            | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ industry_name | VARCHAR(32)         | YES  |     |                   | 行业名称    
+ is_deleted    | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time  | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time  | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+---------------+---------------------+------+-----+-------------------+---------
+
+Table: login_info
+----------------+---------------------+------+-----+-------------------+---------
+ Field          | Type                | Null | Key | Default           | Remarks 
+----------------+---------------------+------+-----+-------------------+---------
+ id             | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ session_id     | BIGINT UNSIGNED(20) | YES  |     |                   | 用户sessionId
+ account        | VARCHAR(50)         | YES  |     |                   | 登录账号    
+ ip_address     | VARCHAR(50)         | YES  |     |                   | 登录IP地址  
+ login_location | VARCHAR(255)        | YES  |     |                   | 登录地址    
+ browser        | VARCHAR(50)         | YES  |     |                   | 浏览器类型   
+ os             | VARCHAR(50)         | YES  |     |                   | 操作系统    
+ status         | TINYINT UNSIGNED(3) | YES  |     |                   | 登录状态 1-登录成功 2-登录失败
+ msg            | VARCHAR(255)        | YES  |     |                   | 提示消息    
+ is_deleted     | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除，1-已删除
+ created_time   | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time   | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+ untitled       | VARCHAR(32)         | YES  |     |                   |         
+----------------+---------------------+------+-----+-------------------+---------
+
+Table: message
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ receiver     | TINYINT UNSIGNED(3) | NO   |     |                   | 发送至 0-用户，1-厂商
+ firm_id      | BIGINT UNSIGNED(20) | NO   |     |                   | 厂商编号    
+ client_id    | BIGINT UNSIGNED(20) | NO   |     |                   | 用户编号    
+ message      | VARCHAR(128)        | YES  |     |                   | 消息详情    
+ is_read      | TINYINT UNSIGNED(3) | YES  |     | 0                 | 是否已读 0-未读，1-已读
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: order_info
+---------------+---------------------+------+-----+---------------------+---------
+ Field         | Type                | Null | Key | Default             | Remarks 
+---------------+---------------------+------+-----+---------------------+---------
+ id            | BIGINT UNSIGNED(20) | NO   | PRI |                     | 编号      
+ user_id       | BIGINT UNSIGNED(20) | NO   |     |                     | 用户编号    
+ goods_id      | BIGINT UNSIGNED(20) | NO   |     |                     | 商品编号    
+ stock_id      | BIGINT UNSIGNED(20) | YES  |     |                     | 库存编号    
+ firm_id       | BIGINT UNSIGNED(20) | YES  |     |                     | 厂商编号    
+ other_user_id | BIGINT UNSIGNED(20) | YES  |     |                     | 共享租赁用户编号
+ type          | VARCHAR(32)         | YES  |     |                     | 订单类型 0-以租代售，1-共享租赁，3-先租后售,4-学生租赁
+ rent_time     | INT(10)             | NO   |     |                     | 租赁时间 天数 
+ relet_time    | INT(10)             | YES  |     |                     | 续租时间    
+ start_time    | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP   | 租赁开始时间  
+ order_state   | TINYINT UNSIGNED(3) | NO   |     | 1                   | 订单状态 0-所有订单，1-提交订单，2-未支付，3-已支付未发货，4-已支付已发货，5-已签收，6-是否续租，7-是否购买，
+8-退租，9-租赁结束正在返还，10-租赁结束商家退款，11-已取消
+ end_time      | TIMESTAMP(26)       | NO   |     | 0000-00-00 00:00:00 | 租赁结束时间  
+ pay_state     | TINYINT UNSIGNED(3) | NO   |     | 0                   | 支付状态 0-未支付，1-已支付
+ deposit       | DECIMAL(32,8)       | NO   |     |                     | 押金      
+ rental        | DECIMAL(32,8)       | NO   |     |                     | 租金      
+ firm_addr     | BIGINT UNSIGNED(20) | YES  |     |                     | 返还地址 厂商地址
+ user_addr     | BIGINT UNSIGNED(20) | YES  |     |                     | 用户地址 用户地址
+ sharing_addr  | BIGINT(19)          | YES  |     |                     |         
+ trade_id      | BIGINT UNSIGNED(20) | YES  |     |                     | 交易号     
+ contract_id   | BIGINT UNSIGNED(20) | YES  |     |                     | 合同号     
+ logistics_id  | BIGINT UNSIGNED(20) | YES  |     |                     | 物流单号    
+ is_deleted    | TINYINT UNSIGNED(3) | NO   |     | 0                   | 是否删除 0-未删除,1-已删除
+ created_time  | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP   | 创建时间    
+ updated_time  | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP   | 更新时间    
+---------------+---------------------+------+-----+---------------------+---------
+
+Table: recharge
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ user_id      | BIGINT UNSIGNED(20) | YES  |     |                   | 用户编号    
+ money        | DECIMAL(32,8)       | YES  |     | 0.00000000        | 充值金额    
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: stock
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ goods_id     | BIGINT UNSIGNED(20) | YES  |     |                   | 关联的商品   
+ status       | TINYINT UNSIGNED(3) | YES  |     | 0                 | 状态 0-可使用，1-损害，2-已买，3-已租赁，4-正在返还
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: trade
+------------------+---------------------+------+-----+-------------------+---------
+ Field            | Type                | Null | Key | Default           | Remarks 
+------------------+---------------------+------+-----+-------------------+---------
+ id               | BIGINT UNSIGNED(20) | NO   | PRI |                   | 交易号     
+ order_id         | BIGINT UNSIGNED(20) | NO   |     |                   | 订单编号    
+ client_id        | BIGINT UNSIGNED(20) | NO   |     |                   | 用户编号    
+ firm_id          | BIGINT UNSIGNED(20) | NO   |     |                   | 厂商编号    
+ type             | TINYINT UNSIGNED(3) | NO   |     | 0                 | 支付方式 0-查询所有，1-银行卡,2-支付宝
+ money            | DECIMAL(32,8)       | NO   |     |                   | 支付金额    
+ deposit_position | TINYINT UNSIGNED(3) | NO   |     |                   | 押金所处位置 0-平台，1-客户，2-厂商
+ rental_position  | TINYINT UNSIGNED(3) | NO   |     |                   | 租金所处位置 0-平台，1-客户，2-厂商
+ is_deleted       | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time     | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time     | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+------------------+---------------------+------+-----+-------------------+---------
+
+Table: user
+-----------------+---------------------+------+-----+-------------------+---------
+ Field           | Type                | Null | Key | Default           | Remarks 
+-----------------+---------------------+------+-----+-------------------+---------
+ id              | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ name            | VARCHAR(32)         | NO   |     |                   | 姓名      
+ sex             | TINYINT UNSIGNED(3) | NO   |     | 0                 | 性别 0-所有，1-男，2-女
+ is_student      | TINYINT(3)          | YES  |     | 0                 | 是否学生 0-所有，1-是，2-否
+ account         | VARCHAR(128)        | NO   |     |                   | 账号      
+ email           | VARCHAR(50)         | NO   |     |                   | 邮箱      
+ id_card         | VARCHAR(20)         | YES  |     |                   | 身份证号    
+ mobile          | VARCHAR(20)         | NO   |     |                   | 手机号     
+ address         | BIGINT UNSIGNED(20) | YES  |     |                   | 默认地址 对应地址表里面的编号
+ Alipay          | VARCHAR(128)        | YES  |     |                   | 支付宝信息   
+ bankCard        | VARCHAR(128)        | YES  |     |                   | 银行卡     
+ balance         | DECIMAL(32,8)       | YES  |     | 0.00000000        |         
+ credit          | TINYINT UNSIGNED(3) | NO   |     | 0                 | 信用等级    
+ credit_score    | INT(10)             | YES  |     | 0                 | 信用分 刚注册的淘宝账号信用为零。要想得到信用，可以通过购物实现
+ salt            | VARCHAR(50)         | NO   |     |                   | 加密盐     
+ password        | VARCHAR(128)        | NO   |     |                   | 密码      
+ status          | TINYINT UNSIGNED(3) | YES  |     | 1                 | 状态 用户状态 1-正常 2-禁用
+ photo_file_id   | BIGINT UNSIGNED(20) | YES  |     |                   | 头像ID    
+ photo_file_name | VARCHAR(255)        | YES  |     |                   | 头像文件名称  
+ is_deleted      | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time    | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time    | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+-----------------+---------------------+------+-----+-------------------+---------
+
+Table: user_address
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ user_id      | BIGINT UNSIGNED(20) | NO   |     |                   | 用户编号    
+ is_default   | TINYINT UNSIGNED(3) | YES  |     | 0                 | 是否为默认地址 0-所有，1-是，2-否
+ province     | VARCHAR(32)         | NO   |     |                   | 省       
+ city         | VARCHAR(32)         | NO   |     |                   | 市       
+ county       | VARCHAR(32)         | NO   |     |                   | 区/县     
+ street       | VARCHAR(32)         | NO   |     |                   | 街道      
+ town         | VARCHAR(32)         | NO   |     |                   | 镇/乡     
+ address_info | VARCHAR(128)        | NO   |     |                   | 地址详细信息  
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: user_session
+---------------+---------------------+------+-----+-------------------+---------
+ Field         | Type                | Null | Key | Default           | Remarks 
+---------------+---------------------+------+-----+-------------------+---------
+ id            | BIGINT UNSIGNED(20) | NO   | PRI |                   | 编号      
+ user_id       | BIGINT UNSIGNED(20) | YES  |     |                   | 对应用户    
+ session_id    | VARCHAR(32)         | YES  |     |                   | 统一认证信息  
+ expires_in    | BIGINT UNSIGNED(20) | YES  |     |                   | 有效时间    
+ expires_time  | BIGINT UNSIGNED(20) | YES  |     |                   | 超时      
+ is_force_quit | TINYINT UNSIGNED(3) | YES  |     | 0                 | 是否被强制退出 0-否 1-是
+ type          | TINYINT UNSIGNED(3) | YES  |     |                   | 用户类型 0-用户，1-管理员，2-厂商
+ is_deleted    | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除,1-已删除
+ created_time  | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 创建时间    
+ updated_time  | TIMESTAMP(26)       | NO   |     | CURRENT_TIMESTAMP | 更新时间    
+---------------+---------------------+------+-----+-------------------+---------
+
